@@ -49,7 +49,7 @@ def protected():
     return jsonify({"logged_in_as": current_user}), 200
 
 
-@auth_bp.route("/refresh", methods=["POST"])
+@auth_bp.post("/refresh")
 @jwt_required(refresh=True)
 def refresh():
     current_user = get_jwt_identity()
