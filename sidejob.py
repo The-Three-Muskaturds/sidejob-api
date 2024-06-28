@@ -4,6 +4,8 @@ from config import Config
 from extensions import db, jwt
 from blueprints import auth_bp
 from dotenv import load_dotenv
+from flask_migrate import Migrate
+
 
 load_dotenv()
 
@@ -13,6 +15,8 @@ def create_app():
     app.config.from_object(Config)
     db.init_app(app)
     jwt.init_app(app)
+    Migrate(app, db)
+
     app.register_blueprint(auth_bp, url_prefix="/api/v1/auth")
 
     # Health Check
