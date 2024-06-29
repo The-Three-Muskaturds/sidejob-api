@@ -8,11 +8,17 @@ class User(db.Model):
     __tablename__ = "users"
 
     id: Mapped[int] = mapped_column(Integer, primary_key=True)
+    first_name: Mapped[str] = mapped_column(String(32), unique=False, nullable=False)
+    last_name: Mapped[str] = mapped_column(String(32), unique=False, nullable=False)
     username: Mapped[str] = mapped_column(String(80), unique=True, nullable=False)
-    password_hash: Mapped[str] = mapped_column(String(128), nullable=False)
+    email: Mapped[str] = mapped_column(String(80), unique=True, nullable=False)
+    password_hash: Mapped[str] = mapped_column(String(512), nullable=False)
 
-    def __init__(self, username, password):
+    def __init__(self, first_name, last_name, username, email, password):
+        self.first_name = first_name
+        self.last_name = last_name
         self.username = username
+        self.email = email
         self.password_hash = generate_password_hash(password)
 
     def check_password(self, password):

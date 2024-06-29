@@ -13,13 +13,57 @@ auth_bp = Blueprint("auth", __name__)
 auth_service = AuthService()
 
 
+class ErrorMessages:
+    MISSING_FIELDS = "All fields are required."
+    INVALID_DATA_FORMAT = "Invalid data format."
+    USER_EXISTS = "User already exists."
+    SUCCESS = "User registered successfully."
+
+
 @auth_bp.route("/register", methods=["POST"])
 def register():
-    username = request.json.get("username")
-    password = request.json.get("password")
-    if auth_service.register_user(username, password):
-        return jsonify({"msg": "User registered successfully"}), 200
-    return jsonify({"msg": "User already exists"}), 400
+    data = request.json
+
+    first_name = data.get("first_name")
+    last_name = data.get("last_name")
+    username = data.get("username")
+    email = data.get("email")
+    password = data.get("password")
+
+    missing_fields = [
+        field
+        for field in ["first_name", "last_name", "username", "email", "password"]
+        if not data.get(field)
+    ]
+    if missing_fields:
+        return jsonify(
+            {
+                "error": "Missing fields",
+                "message": ErrorMessages.MISSING_FIELDS,
+                "missing_fields": missing_fields,
+            }
+        ), 400
+
+    invalid_fields = [
+        field
+        for field in [first_name, last_name, username, email, password]
+        if not isinstance(field, str)
+    ]
+    if invalid_fields:
+        return jsonify(
+            {
+                "error": "Invalid data format",
+                "message": ErrorMessages.INVALID_DATA_FORMAT,
+                "invalid_fields": invalid_fields,
+            }
+        ), 400
+
+    if auth_service.register_user(first_name, last_name, username, email, password):
+        return jsonify({"message": ErrorMessages.SUCCESS}), 200
+    else:
+        return jsonify(
+            {"error": "User already exists", "message": ErrorMessages.USER_EXISTS}
+        ), 400
 
 
 @auth_bp.route("/login", methods=["POST"])

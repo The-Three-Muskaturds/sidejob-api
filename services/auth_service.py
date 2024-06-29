@@ -6,8 +6,8 @@ class AuthService:
     def __init__(self):
         self.user_repo = UserRepository()
 
-    def register_user(self, username, password):
-        return self.user_repo.add_user(username, password)
+    def register_user(self, first_name, last_name, username, email, password):
+        return self.user_repo.add_user(first_name, last_name, username, email, password)
 
     def authenticate_user(self, username, password):
         user = self.user_repo.get_user(username)
