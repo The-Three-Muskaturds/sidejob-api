@@ -9,4 +9,5 @@ class Config:
     SQLALCHEMY_TRACK_MODIFICATIONS = False
     JWT_TOKEN_LOCATION = ["cookies"]
     JWT_COOKIE_CSRF_PROTECT = False
-
+    JWT_COOKIE_SECURE = False  # Secure=False for HTTP
+    JWT_COOKIE_SAMESITE = "Lax"  # Change to 'Lax' for local development

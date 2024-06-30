@@ -17,7 +17,7 @@ def create_app():
     jwt.init_app(app)
     Migrate(app, db)
 
-    CORS(app, resources={r"/api/*": {"origins": "*"}})
+    CORS(app, supports_credentials=True, resources={r"/api/*": {"origins": "*"}})
 
     app.register_blueprint(auth_bp, url_prefix="/api/v1/auth")
 
