@@ -2,12 +2,12 @@ from extensions import db
 from werkzeug.security import generate_password_hash, check_password_hash
 from sqlalchemy import Integer, String
 from sqlalchemy.orm import Mapped, mapped_column
+from .base import BaseModel
 
 
-class User(db.Model):
+class User(BaseModel):
     __tablename__ = "users"
 
-    id: Mapped[int] = mapped_column(Integer, primary_key=True)
     first_name: Mapped[str] = mapped_column(String(32), unique=False, nullable=False)
     last_name: Mapped[str] = mapped_column(String(32), unique=False, nullable=False)
     username: Mapped[str] = mapped_column(String(80), unique=True, nullable=False)
