@@ -5,7 +5,7 @@ from extensions import db, jwt
 from blueprints import auth_bp
 from dotenv import load_dotenv
 from flask_migrate import Migrate
-
+from flask_cors import CORS
 
 load_dotenv()
 
@@ -16,6 +16,8 @@ def create_app():
     db.init_app(app)
     jwt.init_app(app)
     Migrate(app, db)
+
+    CORS(app, resources={r"/api/*": {"origins": "*"}})
 
     app.register_blueprint(auth_bp, url_prefix="/api/v1/auth")
 
