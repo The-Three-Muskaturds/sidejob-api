@@ -10,6 +10,3 @@ class Config:
     JWT_TOKEN_LOCATION = ["cookies"]
     JWT_COOKIE_CSRF_PROTECT = False
 
-
-
-    # os.getenv("DB_URI", "sqlite:///default.db")
